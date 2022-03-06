@@ -1,0 +1,116 @@
+{
+  "name": "loopback4-authorization",
+  "version": "5.0.1",
+  "description": "An authorization extension for loopback-next applications",
+  "keywords": [
+    "loopback-extension",
+    "loopback",
+    "loopback-next",
+    "authorization",
+    "authorisation"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=8.9"
+  },
+  "scripts": {
+    "build": "npm run clean && lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run build",
+    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
+    "coverage": "lb-nyc npm run test",
+    "coverage:ci": "lb-nyc report --reporter=text-lcov | coveralls",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
+    "prepublishOnly": "npm run build && npm run lint",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sourcefuse/loopback4-authorization"
+  },
+  "author": "Sourcefuse",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/core": "^3.1.1",
+    "@loopback/repository": "^4.1.1",
+    "casbin": "^5.11.5",
+    "casbin-pg-adapter": "^1.4.0",
+    "lodash": "^4.17.21",
+    "loopback4-authorization": "^5.0.1",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@loopback/boot": "^4.1.1",
+    "@loopback/build": "^8.1.1",
+    "@loopback/context": "^4.1.1",
+    "@loopback/eslint-config": "^12.0.3",
+    "@loopback/rest": "^11.1.1",
+    "@loopback/testlab": "^4.1.1",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^9.0.1",
+    "@semantic-release/npm": "^8.0.3",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "^12.20.46",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^6.3.0",
+    "cz-customizable-ghooks": "^2.0.0",
+    "eslint": "^8.10.0",
+    "fs-extra": "^10.0.1",
+    "husky": "^7.0.1",
+    "semantic-release": "^17.4.7",
+    "typescript": "~4.5.5"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
+  },
+  "release": {
+    "branches": [
+      "master"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "dist/",
+            "package.json",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} semantic"
+        }
+      ],
+      "@semantic-release/github"
+    ],
+    "repositoryUrl": "git@github.com:sourcefuse/loopback4-authorization.git"
+  }
+}
